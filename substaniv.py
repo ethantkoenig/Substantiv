@@ -9,10 +9,10 @@ from time import sleep
 from urllib import URLopener
 
 
-# Duolingo username
-USERNAME = "ethantkoenig"
+# File contains Duolingo username
+USERNAME_FILE = "username.txt"
 
-# I hide my Duolingo password in a local file
+# File containing Duolingo password
 PASSWORD_FILE = "password.txt"
 
 # Delay (in seconds) between utterances
@@ -22,12 +22,24 @@ INTER_UTTERANCE_DELAY = 1.0
 DEFAULT_NUM_UTTERANCES = 1000
 
 
+# Returns: string - contents of file. Ideally suited for files with one line.
+#                   leading and trailing whitespace is removed
+#
+# filename : string - filepath of file
+def read_file(filename):
+  fl = open(filename)
+  contents = fl.read().strip()
+  fl.close()
+  return contents
+
+
 # Returns : Duolingo object
+#
+# username : string - Duolingo username
 def get_duolingo():
-  password_file = open(PASSWORD_FILE, "r")
-  password = password_file.read().strip()
-  password_file.close()
-  return Duolingo(USERNAME, password)
+  username = read_file(USERNAME_FILE)
+  password = read_file(PASSWORD_FILE)
+  return Duolingo(username, password)
 
 
 # Returns - dict from id to Duolingo lexeme
