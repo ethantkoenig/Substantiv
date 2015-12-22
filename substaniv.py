@@ -72,7 +72,7 @@ def sanitize(word):
 #
 # word : string
 def count_non_ascii(word):
-  return len(x for x in word if ord(x) >= 128)
+  return sum(1 for x in word if ord(x) >= 128)
 
 
 # Returns : bool - whether noun is singular
