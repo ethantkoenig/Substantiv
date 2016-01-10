@@ -84,6 +84,7 @@ def singular(vocab, noun):
   related_nouns = [lexeme for lexeme in related_lexemes 
                           if lexeme["pos"] == "Noun"]
   noun_string = noun["word_string"]
+
   # heuristically check if any relatives are the singular version of noun
   for relative in related_nouns:
     relative_string = relative["word_string"]
@@ -144,19 +145,19 @@ def get_audio(lingo, word, language_abbr):
 # language_abbr : string
 # utterances : string list list
 def play_utterance(lingo, language_abbr, utterance):
-  wav_files = [get_audio(lingo, word, language_abbr) for word in utterance]
+  audio_files = [get_audio(lingo, word, language_abbr) for word in utterance]
   print u"Playing {0}".format(" ".join(utterance))
-  Popen("play {0} 2> /dev/null".format(" ".join(wav_files)), shell = True).wait()
+  Popen("play {0} 2> /dev/null".format(" ".join(audio_files)), shell = True).wait()
  
 
 # Plays n randomly selected utterances 
 #
 # language_abbr : string
-# n : int - number of utterances to play
-def main(language_abbr, n):
+# num_utterances : int - number of utterances to play
+def main(language_abbr, num_utterances):
   lingo = get_duolingo()
   utterances = get_utterances(lingo, language_abbr)
-  for _ in xrange(n):
+  for _ in xrange(num_utterances):
     utterance = random.choice(utterances)  
     play_utterance(lingo, language_abbr, utterance)
     sleep(INTER_UTTERANCE_DELAY)
